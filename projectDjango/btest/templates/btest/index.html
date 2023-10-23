@@ -8,27 +8,46 @@
 	<title>Главная - Доска объявлений</title>
 </head>
 <body class="m-3">
-	<h1>Объявления</h1>
-	{% for bb in bbs %}
-	<div>
-		<h2>{{ bb.title }}</h2>
-		<p>{{ bb.content }}</p>
-		<p>{{ bb.published|date:"d.m.Y. H:i:s"}}</p>
-		<p>{{ bb.rubric.name }}</p>
-	</div>
-	{% endfor %}
+<!--	<h1>Объявления</h1>-->
+<!--	{% for bb in bbs %}-->
+<!--	<div>-->
+<!--		<h2>{{ bb.title }}</h2>-->
+<!--		<p>{{ bb.content }}</p>-->
+<!--		<p>{{ bb.published|date:"d.m.Y. H:i:s"}}</p>-->
+<!--		<p>{{ bb.rubric.name }}</p>-->
+<!--	</div>-->
+<!--	{% endfor %}-->
 
-	<h1>Рубрики: </h1>
-	{% for rub in rs %}
-		<h2>{{ rub.name}}</h2>
-		<ol>
-			{% for bb in rub.bb_set.all %}
-				<li>
-					<p>{{ bb.title }} {{ bb.published|date:"d.m.Y. H:i:s"}}</p>
-				</li>
-			{% endfor %}
-		</ol>
+<!--	<h1>Рубрики: </h1>-->
+<!--	{% for rub in rs %}-->
+<!--		<h2>{{ rub.name}}</h2>-->
+<!--		<ol>-->
+<!--			{% for bb in rub.bb_set.all %}-->
+<!--				<li>-->
+<!--					<p>{{ bb.title }} {{ bb.published|date:"d.m.Y. H:i:s"}}</p>-->
+<!--				</li>-->
+<!--			{% endfor %}-->
+<!--		</ol>-->
 
-	{% endfor %}
+<!--	{% endfor %}-->
+
+<h1>Блюда:</h1>
+<ol>
+  {% for meal in list_meals %}
+    <li>{{meal.name}}</li>
+  {% endfor %}
+</ol>
+
+<h1>Варианты обедов:</h1>
+<ol>
+  {% for lunch_structure in list_lunchs %}
+    <li>
+      {% for meal in lunch_structure.meals.all %}
+        <p>{{ meal.name }}</p>
+      {% endfor %}
+    </li>
+  {% endfor %}
+</ol>
+
 </body>
 </html>

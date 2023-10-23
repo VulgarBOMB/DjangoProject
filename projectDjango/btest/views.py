@@ -15,4 +15,9 @@ def index(request):
 def index1(request):
     bbs = Bb.objects.order_by('-published')
     rs = Rubric.objects.all()
-    return render(request, "btest/index.html", {'bbs': bbs, 'rs' : rs})
+    list_meals = Lunch.objects.all()
+    list_lunchs = LunchStructure.objects.all()
+    return render(request, "btest/index.html", {'bbs': bbs,
+                                                'rs': rs,
+                                                'list_meals': list_meals,
+                                                'list_lunchs': list_lunchs})
