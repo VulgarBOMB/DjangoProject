@@ -1,23 +1,40 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.http import HttpResponse
 from .models import *
 
 
 def index(request):
-    s = 'Список объявлений\r\n\r\n\r\n'
-    for bb in Bb.objects.all():  # минус потом, что по убыванию
-        s += str(bb.title) + '\n' + str(bb.content) + '\n' + str(bb.published) + '\n\n'
-    return HttpResponse(s, content_type='text/plain; charset=utf-8')
+    return render(request, "btest/index.html")
 
 
-def index1(request):
-    bbs = Bb.objects.order_by('-published')
-    rs = Rubric.objects.all()
-    list_meals = Lunch.objects.all()
-    list_lunchs = LunchStructure.objects.all()
-    return render(request, "btest/index.html", {'bbs': bbs,
-                                                'rs': rs,
-                                                'list_meals': list_meals,
-                                                'list_lunchs': list_lunchs})
+def lunches(request):
+    lunch_structures = LunchStructure.objects.all()
+
+    for lunch_structure in lunch_structures:
+        print("--------------------")
+        print(lunch_structure.lunch)
+        print("--------------------")
+        for meals in lunch_structure.meals.all():
+            print(meals.name)
+
+    return render(request, "btest/lunches.html", {
+        'lunch_structures': lunch_structures,
+    })
+
+
+def meals(request):
+    meal_list = Meal.objects.all()
+    lunch_structure_list = LunchStructure.objects.all()
+    meals_list = []
+
+    for meal_item in meal_list:
+        arr = []
+        for lunch_structure in lunch_structure_list:
+            for meals in lunch_structure.meals.all():
+                if meal_item.name == meals.name:
+                    arr.append(Lunch.objects.get(id=lunch_structure.lunch.id))
+                    print(str(Lunch.objects.get(id=lunch_structure.lunch.id)) + " - " + str(meals.name))
+        meals_list.append({'meal': meal_item, 'lunches': arr})
+
+    return render(request, "btest/meals.html", {
+        'meals_list': meals_list,
+    })

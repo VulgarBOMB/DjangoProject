@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	{% load bootstrap5 %}
+	{% bootstrap_javascript %}
+	{% bootstrap_css %}
+	<title>Список блюд</title>
+</head>
+<body class="m-3">
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="/">Главная</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="/lunches">Список комплексных обедов</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active">Список блюд</a>
+  </li>
+</ul>
+
+<h1  class="text-center display-2">Блюда и обеды, в которых они встречаются</h1>
+{% for meal in meals_list %}
+    <div class="container fs-2 pb-1 display-3 mb-3 border-bottom border-primary">{{ meal.meal.name }}</div>
+    <div class="container fs-4 display-3 mb-3">Вес : {{meal.meal.weight}} гр., Энергетическая ценность: {{meal.meal.calories}} ккал</div>
+    <table class="table table-sm table-hover">
+        <tbody>
+        <tr class="table-primary">
+            <th>Название обеда</th>
+            <th>Описание / состав</th>
+            <th>Цена обеда</th>
+        </tr>
+        {% for lunch in meal.lunches %}
+        <tr>
+            <td class="col-3">{{ lunch.name }}</td>
+            <td class="col-6">{{ lunch.description }}</td>
+            <td>{{ lunch.price }} ₽</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+
+</body>
+</html>
